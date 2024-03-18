@@ -6,7 +6,10 @@
 - [Цели и предположения безопасности](#цели-и-предположения-безопасности)
 - [Диаграмма контекста](#диаграмма-контекста)
 - [Базовые сценарии](#базовые-сценарии)
-- [Взаимодействие модулей](#взаимодействие-модулей)
+- [Оновные блоки](#основные-блоки)
+- [Архитектура](#архитектура)
+- [Базовый сценарий и HLA](#базовый-сценарий-и-HLA)
+- [Негативные сценарии](#негативные-сценарии)
 - [Политика архитектуры](#политика-архитектуры)
 - [Тесты](#тесты)
 
@@ -44,16 +47,36 @@
 ![programing](images/base_programing_stimul.png)
 * Стимуляция сердца
 
-## Взаимодействие модулей
+## Основные блоки
+![main_modules](images/main_modules.png)
+![descriprion](images/descr_main_modules.png)
+
+## Архитектура
+![arch](images/arch_hla.png)
+
+## Базовый сценарий и HLA
+![base](images/base_prog_hla)
+
+## Негативные сценарии
+![1](images/attack_programing_conn.png)
+![2](images/attack_prog_con_proccessing.png)
+![3](images/attack_csu.png)
+![4](images/attack_command_block.png)
+![5](images/attack_data_procces.png)
+![6](images/attack_database.png)
+
+## Политика архитектуры
 ### Итерации разработки
 Начальный этап разработки
 
 ![Modules](images/modules.png)
 
-Улучшенная версия архитектуры
+Разбиение сложного компонента
 
 ![step2](images/modules_2.png)
 
-## Политика архитектуры
+Оптимизация стимуляции
+
+![step3](images/final_arch_hla.png)
 
 ## Тесты
