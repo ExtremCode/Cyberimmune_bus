@@ -55,7 +55,7 @@
 ![arch](images/arch_hla.png)
 
 ## Базовый сценарий и HLA
-![base](images/base_prog_hla)
+![base](images/base_prog_hla.png)
 
 ## Негативные сценарии
 ![1](images/attack_programing_conn.png)
