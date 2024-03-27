@@ -71,8 +71,7 @@
 ![base](images/base_prog_hla.png)
 
 ## Негативные сценарии
-![1](images/attack_programing_conn.png)
-![2](images/attack_prog_con_proccessing.png)
+![2](images/attack_prog_con_poccessing.png)
 ![3](images/attack_csu.png)
 ![4](images/attack_command_block.png)
 ![5](images/attack_data_procces.png)
