@@ -1,0 +1,81 @@
+### application
+GET http://localhost:5000/ HTTP/1.1
+
+
+### commun_prog
+
+# post commands
+POST http://localhost:5004/programming HTTP/1.1
+content-type: application/json
+
+{
+    "cardiologist_sign": "digital_cardiologists_signature",
+    "operation": "write_new_commands",
+    "commands": {
+        "30": 5,
+        "40": 4,
+        "60": 3,
+        "80": 2,
+        "100": 1,
+        "120": 0,
+        "140": 0,
+        "160": 0,
+        "180": 0,
+        "200": 0,
+        "220": 0,
+        "240": 0,
+        "260": 0,
+        "280": 0,
+        "300": 0
+    }
+}
+
+### commun_prog 
+
+# post request to get historical data
+POST http://localhost:5004/programming HTTP/1.1
+content-type: application/json
+
+{
+    "cardiologist_sign": "digital_cardiologists_signature",
+    "operation": "get_historical_data"
+}
+
+### commun_prog
+
+# get data
+GET http://localhost:5004/clinic_response HTTP/1.1
+
+
+### commun_user_interf
+
+# post request about getting data
+POST http://localhost:5005/user_post HTTP/1.1
+content-type: application/json
+
+{
+    "user_sign": "digital_users_signature"
+}
+
+### commun_user_interf 
+
+# get historical data
+GET http://localhost:5005/user_get HTTP/1.1
+
+
+### command_block
+
+# get impuls
+GET http://localhost:5007/heart HTTP/1.1
+
+
+### data_processor
+
+# post impuls from heart
+POST http://localhost:5008/heart HTTP/1.1
+content-type: application/json
+
+{
+    "impuls": 0.5
+}
+
