@@ -12,7 +12,7 @@ APP_VERSION = "1.0.2"
 
 _requests_queue: multiprocessing.Queue = None
 
-@app.route("/heart", methods=['POST'])
+@app.route("/sensor_switch", methods=['POST'])
 def heart():
     content = request.json
     
@@ -23,7 +23,6 @@ def heart():
             "id": req_id,
             "operation": "process_impuls",
             "impuls": content['impuls'],
-            "source": "heart",
             "deliver_to": "data_processor"
             }
         _requests_queue.put(heart_details)

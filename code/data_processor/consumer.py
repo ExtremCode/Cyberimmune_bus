@@ -6,8 +6,9 @@ from confluent_kafka import Consumer, OFFSET_BEGINNING
 import json
 from producer import proceed_to_deliver
 import random
+import time
 
-TIME = 0
+TIME = time.time()
 LOWER_THRESHOLD = 30 # bpm
 ALERT_THRESHOLD = 200 # bpm
 UPPER_THRESHOLD = 300 # bpm
@@ -31,8 +32,8 @@ def process_impuls(details: dict):
     if ALERT_THRESHOLD <= details['impuls']:
         details['operation'] = 'high_bpm_alert'
         details['high_bpm_value'] = (details['impuls'], ALERT_THRESHOLD)
-        details['deliver_to'] = 'query_processor'
-        proceed_to_deliver(id, details)
+        details['deliver_to'] = 'command_block'
+        proceed_to_deliver(id, details.copy())
 
 
 def handle_event(id: str, details: dict):
@@ -42,14 +43,14 @@ def handle_event(id: str, details: dict):
     try:
         if details['operation'] == 'process_impuls':
             process_impuls(details)
-            details['operation'] = 'write_new_data'
-            details['update_record'] = (TIME + 1, details['impuls'])
-            TIME += 1
-            details['deliver_to'] = 'storage'
-
-        elif details['operation'] == 'success_save':
             details['operation'] = 'apply_impuls'
             details['deliver_to'] = 'command_block'
+            proceed_to_deliver(id, details.copy())
+            
+            details['operation'] = 'write_new_data'
+            TIME = time.time()
+            details['update_record'] = (TIME, details['impuls'])
+            details['deliver_to'] = 'storage'
 
         elif details['operation'] == 'get_historical_data':
             details['deliver_to'] = 'storage'

@@ -2,7 +2,7 @@
 
 from argparse import ArgumentParser, FileType
 from configparser import ConfigParser
-from consumer import start_consumer
+from api import start_rest
 from producer import start_producer
 from multiprocessing import Queue
 
@@ -19,10 +19,10 @@ if __name__ == "__main__":
     config_parser = ConfigParser()
     config_parser.read_file(args.config_file)
     config = dict(config_parser['default'])
-    config.update(config_parser['data_processor'])
+    config.update(config_parser['sensor_switch'])
 
     requests_queue = Queue()
 
-    start_consumer(args, config)
+    start_rest(requests_queue)
     start_producer(args, config, requests_queue)
 

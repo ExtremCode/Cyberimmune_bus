@@ -28,7 +28,7 @@ def commit_commands(details: dict) -> bool:
 
 def get_commands(details: dict):
     success = False
-    commands = None
+    commands: dict = None
     try:
         with open(STORAGE_PATH, "r") as f:
             commands = json.load(f)
@@ -70,11 +70,11 @@ def handle_event(id: str, details: dict):
             if result is True:
                 try:
                     # search_key is impuls that round to multiple 20
-                    search_key = max(30, details['impuls'] - details['impuls'] % 20)
+                    search_key = int(max(30, details['impuls'] - details['impuls'] % 20))
                     details['response'] = [{
                         "operation": "discharge_impuls",
                         "result": "success",
-                        "value": commands.get(search_key)
+                        "discharge value": commands.get(str(search_key))
                     }]
                     _responses_queue.put(details)
                 except Exception as e:

@@ -5,6 +5,7 @@ import threading
 from confluent_kafka import Consumer, OFFSET_BEGINNING
 import json
 from producer import proceed_to_deliver
+from time import ctime
 
 STORAGE_PATH = "storage/data/anamnesis.txt"
 
@@ -12,7 +13,8 @@ STORAGE_PATH = "storage/data/anamnesis.txt"
 def write_new_data(details):
     stored = False
     # update_record is tuple like (time, value_of_impuls)
-    update_record = str(details['update_record'])
+    update_record = "(" + ctime(details['update_record'][0])\
+        + ", " + str(details['update_record'][1]) + ")\n"
     try:
         with open(STORAGE_PATH, "a") as f:
             f.write(update_record)
@@ -27,7 +29,8 @@ def get_anamnesis(details):
     data = []
     try:
         with open(STORAGE_PATH, "r") as f:
-            data.extend(f.readlines())
+            for record in f.readlines():
+                data.append(record)
         success = True
     except Exception as e:
         print(f"[error] failed to read anamnesis {details}: {e}")
@@ -48,8 +51,6 @@ def handle_event(id: str, details: dict):
                     stored = write_new_data(details)
                     if stored:
                         break
-            details['operation'] = 'success_save'
-            details['deliver_to'] = 'data_processor'
             del details['update_record']
         
         elif details['operation'] == 'get_historical_data':
@@ -68,8 +69,7 @@ def handle_event(id: str, details: dict):
                 if result is False:
                     details['historical_data'] = []
             details['deliver_to'] = 'data_processor'
-        
-        proceed_to_deliver(id, details)
+            proceed_to_deliver(id, details)
         
     except Exception as e:
         print(f"[error] failed to handle request: {e}")

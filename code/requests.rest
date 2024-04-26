@@ -59,23 +59,23 @@ content-type: application/json
 
 ### commun_user_interf 
 
-# get historical data
+# get data
 GET http://localhost:5005/user_get HTTP/1.1
 
 
 ### command_block
 
 # get impuls
-GET http://localhost:5007/heart HTTP/1.1
+GET http://localhost:5007/command_block HTTP/1.1
 
 
-### data_processor
+### electrode_switch
 
 # post impuls from heart
-POST http://localhost:5008/heart HTTP/1.1
+POST http://localhost:5008/sensor_switch HTTP/1.1
 content-type: application/json
 
 {
-    "impuls": 0.5
+    "impuls": 2
 }
 

@@ -92,6 +92,16 @@ services:
     depends_on:
       - su-broker
 
+  sensor_switch:
+    image: sensor_switch
+    build:
+      context: .
+      dockerfile: ./Dockerfile.sensor_switch
+    depends_on:
+      - su-broker
+    ports:
+      - "5008:5008"
+
   data_processor:
     image: data_processor
     build:
@@ -99,8 +109,6 @@ services:
       dockerfile: ./Dockerfile.data_processor
     depends_on:
       - su-broker
-    ports:
-      - "5008:5008"
 
   storage:
     image: storage

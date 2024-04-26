@@ -12,7 +12,7 @@ APP_VERSION = "1.0.2"
 
 _responses_queue: multiprocessing.Queue = None
 
-@app.route("/heart", methods=['GET'])
+@app.route("/command_block", methods=['GET'])
 def get_response():    
     responses = []
     while True:

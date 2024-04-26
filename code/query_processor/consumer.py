@@ -18,6 +18,20 @@ def handle_event(id: str, details: dict):
         if details['operation'] == 'return_battery_stat':
             CHARGE_LEVEL = details['charge_level']
             del details['charge_level']
+        
+        elif details['operation'] == 'high_bpm_alert':
+            details['response'] = [{
+                "operation": "high_bpm_alert",
+                "value": details['high_bpm_value'][0],
+                "threshold": details['high_bpm_value'][1]
+                }]
+            details['deliver_to'] = 'commun_user_interf'
+            try:
+                del details['high_bpm_value']
+            finally:
+                required_delivery = True
+        
+        elif details['operation'] == 'return_historical_data':
             if 'cardiologist_sign' in details:
                 details['deliver_to'] = 'commun_prog'
                 details['operation'] = 'return_historical_data'
@@ -33,7 +47,7 @@ def handle_event(id: str, details: dict):
                     del details['cardiologist_sign']
                     del details['historical_data']
                 finally:
-                    proceed_to_deliver(id, details)
+                    proceed_to_deliver(id, details.copy())
             
             if 'user_sign' in details:
                 details['deliver_to'] = 'commun_user_interf'
@@ -48,26 +62,10 @@ def handle_event(id: str, details: dict):
                 }]
                 try:
                     del details['user_sign']
-                    del details['historical_data']
+                    if 'historical_data' in details:
+                        del details['historical_data']
                 finally:
                     required_delivery = True
-        
-        elif details['operation'] == 'high_bpm_alert':
-            details['response'] = [{
-                "operation": "high_bpm_alert",
-                "value": details['high_bpm_value'][0],
-                "threshold": details['high_bpm_value'][1]
-                }]
-            details['deliver_to'] = 'commun_user_interf'
-            try:
-                del details['high_bpm_value']
-            finally:
-                required_delivery = True
-        
-        elif details['operation'] == 'return_historical_data':
-            details['operation'] = 'check_battery'
-            details['deliver_to'] = 'battery_controller'
-            required_delivery = True
 
         elif details['operation'] == 'commands_committed' or\
                 details['operation'] == 'fail_commands_save':
@@ -85,11 +83,14 @@ def handle_event(id: str, details: dict):
             if 'cardiologist_sign' in details:
                 if details['cardiologist_sign'] == 'digital_cardiologists_signature':
                     details['deliver_to'] = 'data_processor'
-                    proceed_to_deliver(id, details)
+                    proceed_to_deliver(id, details.copy())
             elif 'user_sign' in details:
                 if details['user_sign'] == 'digital_users_signature':
                     details['deliver_to'] = 'data_processor'
-                    proceed_to_deliver(id, details)
+                    proceed_to_deliver(id, details.copy())
+            details['operation'] = 'check_battery'
+            details['deliver_to'] = 'battery_controller'
+            required_delivery = True
 
         # only a reliable cardiologist can write new commands
         elif details['operation'] == 'write_new_commands':

@@ -56,8 +56,7 @@ def check_operation(id, details):
         authorized = True
 
     if src == 'storage' and dst == 'data_processor' \
-            and (operation == 'return_historical_data' or\
-                 operation == 'success_save'):
+            and operation == 'return_historical_data':
         authorized = True
 
     if src == 'data_processor' and dst == 'command_block' \
@@ -67,9 +66,10 @@ def check_operation(id, details):
                 operation == 'apply_impuls'):
         authorized = True
 
-    # there is a fictional module - heart due to the fact that 
+    # there is a fictional module (priori doesn't include program code) 
+    # due to the fact that 
     # in another case data_processor recieve impuls from data_processor 
-    if src == 'heart' and dst == 'data_processor' \
+    if src == 'sensor_switch' and dst == 'data_processor' \
             and operation == 'process_impuls':
         authorized = True
     
