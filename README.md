@@ -81,6 +81,8 @@
 ## Базовый сценарий и HLA
 ![base](images/base_prog_hla.png)
 
+![base2](images/base_stimul_hla.png)
+
 ## Негативные сценарии
 ![2](images/attack_prog_con_poccessing.png)
 ![3](images/attack_csu.png)
@@ -123,5 +125,9 @@
 ![step6](images/prerelise_arch_hla.png)
 
 ![rel3](images/prerelise_lev_of_rel.png)
+
+В связи с тем, что при разработке прототипа было необходимо создать модуль, который бы посылал импульс в обработчик данных, был внедрен коммутатор датчиков. Он не содержит программного кода, поэтому обозначен черным цветом. Обоснование доверия компонентов не изменилось.
+
+![step7](images/proto_arch_hla.png)
 
 ## Тесты
