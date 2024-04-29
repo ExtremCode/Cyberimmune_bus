@@ -29,6 +29,3 @@ def start_rest(responses_queue):
     global _responses_queue 
     _responses_queue = responses_queue
     threading.Thread(target=lambda: app.run(host=host_name, port=port, debug=True, use_reloader=False)).start()
-
-# if __name__ == "__main__":        # on running python app.py
-#     start_rest()

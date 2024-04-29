@@ -47,7 +47,7 @@ def handle_event(id: str, details: dict):
                     del details['cardiologist_sign']
                     del details['historical_data']
                 finally:
-                    proceed_to_deliver(id, details.copy())
+                    proceed_to_deliver(details.copy())
             
             if 'user_sign' in details:
                 details['deliver_to'] = 'commun_user_interf'
@@ -70,7 +70,7 @@ def handle_event(id: str, details: dict):
         elif details['operation'] == 'commands_committed' or\
                 details['operation'] == 'fail_commands_save':
             details['response'] = [{
-                'operation': 'write_new_command',
+                'operation': 'write_new_commands',
                 'result': details['operation']
             }]
             details['operation'] = 'process_event'
@@ -83,11 +83,11 @@ def handle_event(id: str, details: dict):
             if 'cardiologist_sign' in details:
                 if details['cardiologist_sign'] == 'digital_cardiologists_signature':
                     details['deliver_to'] = 'data_processor'
-                    proceed_to_deliver(id, details.copy())
+                    proceed_to_deliver(details.copy())
             elif 'user_sign' in details:
                 if details['user_sign'] == 'digital_users_signature':
                     details['deliver_to'] = 'data_processor'
-                    proceed_to_deliver(id, details.copy())
+                    proceed_to_deliver(details.copy())
             details['operation'] = 'check_battery'
             details['deliver_to'] = 'battery_controller'
             required_delivery = True
@@ -101,7 +101,7 @@ def handle_event(id: str, details: dict):
                     required_delivery = True
                     
         if required_delivery:
-            proceed_to_deliver(id, details)
+            proceed_to_deliver(details)
     except Exception as e:
         print(f"[error] failed to handle request: {e}")
 
@@ -135,11 +135,11 @@ def consumer_job(args, config):
             else:
                 # Extract the (optional) key and value, and print.
                 try:
-                    id = msg.key().decode('utf-8')
+                    _id = msg.key().decode('utf-8')
                     details_str = msg.value().decode('utf-8')
                     # print("[debug] consumed event from topic {topic}: key = {key:12} value = {value:12}".format(
                         # topic=msg.topic(), key=id, value=details_str))
-                    handle_event(id, json.loads(details_str))
+                    handle_event(_id, json.loads(details_str))
                 except Exception as e:
                     print(
                         f"Malformed event received from topic {topic}: {msg.value()}. {e}")

@@ -7,7 +7,7 @@ import json
 
 _requests_queue: multiprocessing.Queue = None
 
-def proceed_to_deliver(id, details):
+def proceed_to_deliver(details):
     # print(f"[debug] queueing for delivery event id: {id}, payload: {details}")
     details['source'] = 'command_block'    
     _requests_queue.put(details)

@@ -33,7 +33,7 @@ def process_impuls(details: dict):
         details['operation'] = 'high_bpm_alert'
         details['high_bpm_value'] = (details['impuls'], ALERT_THRESHOLD)
         details['deliver_to'] = 'command_block'
-        proceed_to_deliver(id, details.copy())
+        proceed_to_deliver(details.copy())
 
 
 def handle_event(id: str, details: dict):
@@ -45,7 +45,7 @@ def handle_event(id: str, details: dict):
             process_impuls(details)
             details['operation'] = 'apply_impuls'
             details['deliver_to'] = 'command_block'
-            proceed_to_deliver(id, details.copy())
+            proceed_to_deliver(details.copy())
             
             details['operation'] = 'write_new_data'
             TIME = time.time()
@@ -59,7 +59,7 @@ def handle_event(id: str, details: dict):
                 details['operation'] == 'write_new_commands':
             details['deliver_to'] = 'command_block'
         
-        proceed_to_deliver(id, details)
+        proceed_to_deliver(details)
     except Exception as e:
         print(f"[error] failed to handle request: {e}")
 
@@ -93,9 +93,9 @@ def consumer_job(args, config):
                 print(f"[error] {msg.error()}")
             else:
                 try:
-                    id = msg.key().decode('utf-8')
+                    _id = msg.key().decode('utf-8')
                     details = json.loads(msg.value().decode('utf-8'))
-                    handle_event(id, details)
+                    handle_event(_id, details)
                 except Exception as e:
                     print(
                         f"[error] malformed event received from topic {topic}: {msg.value()}. {e}")    

@@ -28,7 +28,7 @@ def commit_commands(details: dict) -> bool:
 
 def get_commands(details: dict):
     success = False
-    commands: dict = None
+    commands: dict = {}
     try:
         with open(STORAGE_PATH, "r") as f:
             commands = json.load(f)
@@ -74,7 +74,7 @@ def handle_event(id: str, details: dict):
                     details['response'] = [{
                         "operation": "discharge_impuls",
                         "result": "success",
-                        "discharge value": commands.get(str(search_key))
+                        "value_of_discharge": commands.get(str(search_key))
                     }]
                     _responses_queue.put(details)
                 except Exception as e:
@@ -88,7 +88,7 @@ def handle_event(id: str, details: dict):
             del details['impuls']
         
         if required_delivery:
-            proceed_to_deliver(id, details)
+            proceed_to_deliver(details)
                 
     except Exception as e:
         print(f"[error] failed to handle request: {e}")
@@ -127,11 +127,11 @@ def consumer_job(args, config, responses_queue=None):
             else:
                 # Extract the (optional) key and value, and print.
                 try:
-                    id = msg.key().decode('utf-8')
+                    _id = msg.key().decode('utf-8')
                     details = json.loads(msg.value().decode('utf-8'))
                     # print(
                     #     f"[debug] consumed event from topic {topic}: key = {id} value = {details}")
-                    handle_event(id, details)
+                    handle_event(_id, details)
                 except Exception as e:
                     print(
                         f"[error] Malformed event received from topic {topic}: {msg.value()}. {e}")

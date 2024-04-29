@@ -69,7 +69,7 @@ def handle_event(id: str, details: dict):
                 if result is False:
                     details['historical_data'] = []
             details['deliver_to'] = 'data_processor'
-            proceed_to_deliver(id, details)
+            proceed_to_deliver(details)
         
     except Exception as e:
         print(f"[error] failed to handle request: {e}")
@@ -105,11 +105,11 @@ def consumer_job(args, config):
             else:
                 # Extract the (optional) key and value, and print.
                 try:
-                    id = msg.key().decode('utf-8')
+                    _id = msg.key().decode('utf-8')
                     details = json.loads(msg.value().decode('utf-8'))
                     # print(
                     #     f"[debug] consumed event from topic {topic}: key = {id} value = {details}")
-                    handle_event(id, details)
+                    handle_event(_id, details)
                 except Exception as e:
                     print(
                         f"[error] Malformed event received from topic {topic}: {msg.value()}. error: {e}")

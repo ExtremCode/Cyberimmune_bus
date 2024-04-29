@@ -6,7 +6,7 @@ kafka-console-producer --bootstrap-server su-broker:9092 \
 create-topics:
 	docker exec su-broker \
   kafka-topics --create --if-not-exists \
-    --topic downloader \
+    --topic battery_controller \
     --bootstrap-server localhost:9092 \
     --replication-factor 1 \
     --partitions 1
@@ -18,7 +18,7 @@ create-topics:
     --partitions 1
 	docker exec su-broker \
   kafka-topics --create --if-not-exists \
-    --topic manager \
+    --topic command_block \
     --bootstrap-server localhost:9092 \
     --replication-factor 1 \
     --partitions 1
@@ -30,13 +30,31 @@ create-topics:
     --partitions 1
 	docker exec su-broker \
   kafka-topics --create --if-not-exists \
-    --topic updater \
+    --topic commun_prog \
     --bootstrap-server localhost:9092 \
     --replication-factor 1 \
     --partitions 1
 	docker exec su-broker \
   kafka-topics --create --if-not-exists \
-    --topic verifier \
+    --topic commun_user_interf \
+    --bootstrap-server localhost:9092 \
+    --replication-factor 1 \
+    --partitions 1
+  docker exec su-broker \
+  kafka-topics --create --if-not-exists \
+    --topic data_processor \
+    --bootstrap-server localhost:9092 \
+    --replication-factor 1 \
+    --partitions 1
+  docker exec su-broker \
+  kafka-topics --create --if-not-exists \
+    --topic query_processor \
+    --bootstrap-server localhost:9092 \
+    --replication-factor 1 \
+    --partitions 1
+  docker exec su-broker \
+  kafka-topics --create --if-not-exists \
+    --topic sensor_switch \
     --bootstrap-server localhost:9092 \
     --replication-factor 1 \
     --partitions 1
