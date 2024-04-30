@@ -57,4 +57,4 @@ check_broker:
 
 
 test: check_broker
-	pipenv run pytest -sv --reruns 5
+	pipenv run pytest -sv

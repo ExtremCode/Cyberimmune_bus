@@ -76,6 +76,6 @@ POST http://localhost:5008/sensor_switch HTTP/1.1
 content-type: application/json
 
 {
-    "impuls": 2
+    "impuls": 1.5
 }
 
