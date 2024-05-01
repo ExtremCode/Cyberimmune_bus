@@ -85,9 +85,9 @@
 ![base2](images/base_stimul_hla.png)
 
 ## Негативные сценарии
-![1](image/attack_query_proc.png)
-![2](image/attack_command_block.png)
-![3](image/attack_data_proc.png)
+![negative_1](image/attack_query_proc.png)
+![negative_2](image/attack_command_block.png)
+![negative_3](image/attack_data_proc.png)
 
 ## Политика архитектуры
 ### Итерации разработки
